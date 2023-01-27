@@ -20,12 +20,12 @@ export default {
                     <img src="#" alt="logo">
                 </div>
                 <div class="col-6">
-                    <h1>Guest Home page</h1>
+                    <h1>Guest</h1>
                 </div>
                 <div class="col-4">
                     <navbar>
                         <ul class="d-flex">
-                            <li class="px-4" v-for="route in routesData" :key="route.id"><router-link :to="{ name: route.name}">{{route.show}}</router-link></li>
+                            <li class="px-4" v-for="route in routesData" :key="route.id"><router-link :to="{ name: route.name}" class="np-link">{{route.show}}</router-link></li>
 
                         </ul>
                     </navbar>
@@ -60,13 +60,35 @@ export default {
             margin: 0;
             list-style: none;
             li{
-                a{
+                .np-link{
+                    position: relative;
+                    top: 0;
+                    transition: all .5s;
                     color: white;
                     text-decoration: none;
-                    transition: all .3s;
+                    text-transform: uppercase;
+                    font-size: .8em;
+                    font-weight: bold;
+
                     &:hover,
                     &.active{
                         color: lightblue;
+                    }
+                    &::after{
+                        content: '';
+                        width: 105%;
+                        border: 2px solid lightblue;
+                        border-radius: 2px;
+                        position: absolute;
+                        top: 38px;
+                        left: 0;
+                        opacity: 0;
+                        transition: all .5s;
+                    }
+
+                    &:hover::after,
+                    &.active::after{
+                        opacity: 1;
                     }
                 }
             }

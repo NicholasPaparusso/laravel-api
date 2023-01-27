@@ -15,7 +15,7 @@ export default {
    methods:{
 
     },
-   
+
 }
 
 </script>
@@ -39,7 +39,7 @@ export default {
 
     </div>
   </div>
-
+<router-view></router-view>
 </template>
 
 <style>

@@ -1,17 +1,17 @@
 <script>
 
 import axios from 'axios';
-
+import { store } from './data/store'
+import ProjectCard from './components/ProjectCard.vue';
 export default {
 
     name: 'App',
-
+    components:{
+        ProjectCard,
+    },
     data(){
         return{
-            projects:[],
-            next_page: null,
-            prev_page:null,
-            paginator: [],
+            store
         }
     },
 
@@ -20,11 +20,11 @@ export default {
             axios.get(url)
 
                 .then(result => {
-                    this.projects = result.data.projects.data,
-                    this.next_page = result.data.projects.next_page_url,
-                    this.prev_page = result.data.projects.prev_page_url,
-                    this.paginator = result.data.projects.links
-                    console.log(this.paginator);
+                    store.projects = result.data.projects.data,
+                    store.next_page = result.data.projects.next_page_url,
+                    store.prev_page = result.data.projects.prev_page_url,
+                    store.paginator = result.data.projects.links
+                    console.log(store.projects);
                 })
         },
 
@@ -58,14 +58,14 @@ export default {
 
             <div class="paginator">
                 <button class="btn btn-primary btn-sm mx-2"
-                @click="getApi(this.prev_page)"
-                :disabled="this.prev_page === null"
+                @click="getApi(store.prev_page)"
+                :disabled="store.prev_page === null"
                 >
                     Prev
                 </button>
 
                 <button class="btn btn-primary btn-sm mx-2"
-                v-for="page in paginator" :key="page.label"
+                v-for="page in store.paginator" :key="page.label"
                 @click="getApi(page.url)"
                 :disabled="page.active == true"
                 v-show="!page.label.includes('&')"
@@ -74,43 +74,23 @@ export default {
                 </button>
 
                 <button class="btn btn-primary btn-sm mx-2"
-                @click="getApi(this.next_page)"
-                :disabled="this.next_page === null"
+                @click="getApi(store.next_page)"
+                :disabled="store.next_page === null"
                 >
                     Next
                 </button>
             </div>
 
             <div class="row">
-
-                <div v-for="project in projects" :key="project.id" class="col-4 p-4 ">
-
-                    <div class="np-card p-3">
-                        <div class="title d-flex align-items-center">
-                            <h5 v-html="project.name"></h5>
-                            <h6 class="mx-3">ID: {{project.id}}</h6>
-                            <p v-if="project.type"
-                             class="mx-3  badge text-bg-primary">{{project.type.name}}</p>
-                        </div>
-
-                        <div class="text">
-                            <p v-html="truncateStr(project.summary)"></p>
-                            <div class="technologies">
-                                <span v-for="technology in project.technologies" :key="technology.id" class="p-1 mx-2 badge text-bg-success">{{ technology.name }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                <ProjectCard v-for="project in store.projects" :key="project.id" :project="project" />
             </div>
         </div>
     </main>
 
 </template>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    // @use './styles/general.scss';
     header{
         background-color: #0e0e0e;
         height: 70px;

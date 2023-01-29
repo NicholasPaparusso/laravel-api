@@ -3,7 +3,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from './pages/Home.vue';
 import Contacts from './pages/Contacts.vue';
 import About from './pages/About.vue';
+import Projects from './pages/Projects.vue';
 import Detail from './pages/Detail.vue';
+import Error404 from './pages/Error404.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -24,17 +26,22 @@ const router = createRouter({
             path: '/chi_siamo',
             name: 'about',
             component: About
-        }
-        // {
-        //     path: '',
-        //     name: '',
-        //     component:
-        // },
-        // {
-        //     path: '',
+        },
+        {
+            path: '/progetti',
+            name: 'projects',
+            component: Projects
+        },
+        {
+            path: '/projetti/dettaglio-progetto/:slug',
+            name: 'detail',
+            component: Detail
+        },
+        {
+        path: '/:pathMatch(.*)*',
 
-        //     component:
-        // }
+        component: Error404
+        }
     ]
 
 });

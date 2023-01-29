@@ -16,17 +16,16 @@ const routesData = [        {
     name: 'about',
     show: 'about',
     id: '3',
+},
+{
+    path: '/progetti',
+    name: 'projects',
+    show: 'progetti',
+    id: '4',
 }
-// {
-//     path: '',
-//     name: '',
-//     component:
-// },
-// {
-//     path: '',
 
-//     component:
-// }
 ];
 
-export {routesData}
+const baseUrl = 'http://127.0.0.1:8000/api/projects/' ;
+
+export {routesData , baseUrl}

@@ -59,6 +59,7 @@ export default {
 
     .np-card{
         border: 1px solid lightblue;
+        min-width: 300px;
     }
 
     .date{

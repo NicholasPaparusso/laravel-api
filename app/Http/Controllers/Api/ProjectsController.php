@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Type;
+use App\Models\Technology;
 class ProjectsController extends Controller
 {
     public function index(){
 
         $projects = Project::with(['type','technologies'])->paginate(6);
-
-        return response()->json(compact('projects'));
+        $types = Type::all();
+        $technologies = Technology::all();
+        return response()->json(compact('projects','types','technologies'));
     }
 
     public function show($slug){
@@ -24,5 +27,34 @@ class ProjectsController extends Controller
         }
 
         return response()->json($project);
+    }
+
+    public function search(){
+
+        $tosearch = $_POST['tosearch'];
+
+        $projects = Project::where('name','like', "%$tosearch%")->with(['type','technologies'])->find();
+
+        return response()->json(compact('projects'));
+    }
+
+    public function searchByType($id){
+
+        $projects = Project::where('type_id', $id)->with(['type','technologies'])->get();
+
+        return response()->json(compact('projects'));
+    }
+
+    public function searchByTechnology($id){
+
+        $projects = [];
+
+        $technology = Technology::where('id',$id)->with(['projects'])->first();
+
+        foreach ($technology->projects as $project) {
+            $projects[] = Project::where('id', $project->id)->with(['type','technologies'])->first();
+        }
+
+        return response()->json($projects);
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProjectsController;
+use App\Http\Controllers\Api\LeadController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,3 +29,5 @@ Route::namespace('Api')
         Route::get('/{slug}', [ProjectsController::class, 'show']);
         Route::post('/search',[ProjectsController::class, 'search']);
     });
+
+Route::post('/contacts',[LeadController::class,'store']);
